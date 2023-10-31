@@ -13,7 +13,7 @@ def process_sorting(method, input_data):
     if method == "Heapsort":
 
         heapsort_instance = Heapsort.Heapsort(input_data)
-        sorted_dict = heapsort_instance.sort_dictionary()
+        sorted_dict = heapsort_instance.heapsort()
         print(sorted_dict)
         return sorted_dict
 

@@ -5,8 +5,11 @@ from kivy.uix.dropdown import DropDown
 from kivy.uix.button import Button
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.label import Label
+from kivy.uix.image import Image
 from kivy.uix.textinput import TextInput
+from control import controleOrdenacao
 import random
+import itertools
 
 
 class MyWindow(App):
@@ -18,7 +21,7 @@ class MyWindow(App):
         layout = BoxLayout(orientation='vertical', spacing=10, padding=10)
 
         dropdown = DropDown()
-        options = ["Mergesort", "Heapsort"]
+        options = ["Mergesort","Quicksort", "Heapsort"]
         for option in options:
             btn = Button(text=option, size_hint_y=None, height=44)
             btn.bind(on_release=lambda btn: dropdown.select(btn.text))
@@ -38,8 +41,8 @@ class MyWindow(App):
         self.apply_button.bind(on_release=self.generate_auto)
         self.apply_button2 = Button(text="Aplicar",size_hint_y=None, height=44,opacity=0)
         self.apply_button2.bind(on_release=self.generate_manual)
-        layout.add_widget(manual_button)
-        layout.add_widget(auto_button)
+        self.run_button = Button(text="Rodar Algoritmo",size_hint_y=None,height=44)
+        self.run_button.bind(on_release=self.run_alg)
 
         self.manual_input = TextInput(
             hint_text="Digite dessa forma: chave1 10 chave2 15 chaveN N...", multiline=False, size_hint_y=None, height=44, write_tab=False, opacity=0
@@ -47,12 +50,15 @@ class MyWindow(App):
         self.auto_input = TextInput(
             hint_text="Insira o tamanho do vetor", multiline=False, size_hint_y=None, height=44, write_tab=False, opacity=0
         )
+        layout.add_widget(manual_button)
         layout.add_widget(self.manual_input)
-        layout.add_widget(self.apply_button2)
+        layout.add_widget(self.apply_button2) #adicionei aqui para ficar embaixo do text field
+        layout.add_widget(auto_button)
         layout.add_widget(self.auto_input)
-        layout.add_widget(self.apply_button) #adicionei aqui para ficar embaixo do text field
+        layout.add_widget(self.apply_button)
         self.result_label = Label(text="Resultado: ", size_hint_y=None, height=44)
         layout.add_widget(self.result_label)
+        layout.add_widget(self.run_button)
 
         return layout
 
@@ -61,9 +67,10 @@ class MyWindow(App):
         try:
             size = int(self.auto_input.text)
             if size > 0:
-                # Gere um dicionário com nomes e números aleatórios
-                result_dict = {nome: random.randint(1, 100) for nome in random.sample(nomes, size)}
-                self.result_label.text = "Resultado: " + str(result_dict)
+                # Crie um iterador infinito dos nomes
+                nome_generator = itertools.cycle(nomes)
+                self.result_dict = {next(nome_generator): random.randint(1, size) for _ in range(size)}
+                self.result_label.text = "Resultado: " + str(self.result_dict)
             else:
                 self.result_label.text = "Tamanho inválido."
         except ValueError:
@@ -76,16 +83,16 @@ class MyWindow(App):
         name_value_pairs = input_text.split()
         
         try:
-            result_dict = {}
+            self.result_dict = {}
             for i in range(0, len(name_value_pairs), 2):
                 key = name_value_pairs[i]
                 value = int(name_value_pairs[i + 1])
-                result_dict[key] = value
+                self.result_dict[key] = value
             
             # Você pode adicionar o resultado a uma estrutura de dados, por exemplo, um dicionário de classe
-            self.user_data = result_dict
+            self.user_data = self.result_dict
 
-            result_text = "Resultado: " + str(result_dict) + "\n" + f"Pares inseridos manualmente: {len(result_dict)}"
+            result_text = "Resultado: " + str(self.result_dict) + "\n" + f"Pares inseridos manualmente: {len(self.result_dict)}"
             self.result_label.text = result_text
         except (ValueError, IndexError):
             self.result_label.text = "Digite pares válidos de chave e valor (ex: chave1 10 chave2 20)."
@@ -106,5 +113,11 @@ class MyWindow(App):
         else:
             self.auto_input.opacity = 0
             self.apply_button.opacity = 0
+
+    def run_alg(self, instance):
+       print(self.mainbutton.text)
+       print('entrei aq')
+       x = controleOrdenacao.process_sorting(self.mainbutton.text, self.result_dict)
+       self.result_label.text = str(x)
 
 

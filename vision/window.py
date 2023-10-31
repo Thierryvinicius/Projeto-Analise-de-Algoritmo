@@ -62,15 +62,20 @@ class MyWindow(App):
 
         return layout
 
+
+
     def generate_auto(self, instance):
-        nomes = ["Alice", "Bob", "Charlie", "David", "Eve", "Frank", "Grace", "Hank", "Isabel", "Jack"]
         try:
             size = int(self.auto_input.text)
             if size > 0:
-                # Crie um iterador infinito dos nomes
-                nome_generator = itertools.cycle(nomes)
-                self.result_dict = {next(nome_generator): random.randint(1, size) for _ in range(size)}
-                self.result_label.text = "Resultado: " + str(self.result_dict)
+                nomes = ["Alice", "Bob", "Charlie", "David", "Eve", "Frank", "Grace", "Hank", "Isabel", "Jack"]
+                if size > 1000:
+                    self.result_label.text = "Tamanho inválido. O número deve ser no máximo 1000."
+                else:
+                    numeros_unicos = random.sample(range(1, 1001), size)
+                    shuffled_nomes = [random.choice(nomes) for _ in range(size)]
+                    self.result_dict = {numero: nome for numero, nome in zip(numeros_unicos, shuffled_nomes)}
+                    self.result_label.text = "Resultado: " + str(self.result_dict)
             else:
                 self.result_label.text = "Tamanho inválido."
         except ValueError:

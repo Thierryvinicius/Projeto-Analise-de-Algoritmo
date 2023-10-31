@@ -12,7 +12,7 @@ class QuickSort:
         pivot = items[h]
         i = l - 1
         for j in range(l, h):
-            if items[j][1] <= pivot[1]:
+            if items[j][0] <= pivot[0]:
                 i = i + 1
                 items[i], items[j] = items[j], items[i]
         items[i + 1], items[h] = items[h], items[i + 1]

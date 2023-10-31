@@ -13,7 +13,7 @@ class Mergesort:
         k = l
 
         while i < n1 and j < n2:
-            if L[i][1] <= R[j][1]:
+            if L[i][0] <= R[j][0]:
                 items[k] = L[i]
                 i += 1
             else:
@@ -42,7 +42,7 @@ class Mergesort:
         # Converte o dicionário em uma lista de tuplas (chave, valor)
         items = list(self.dictionary.items())
 
-        # Realiza o ordenamento com o Mergesort
+        # Realiza o ordenamento com o Mergesort com base nas chaves (índices)
         self.mergesort(items, 0, len(items) - 1)
 
         # Cria um novo dicionário ordenado com base nas tuplas ordenadas

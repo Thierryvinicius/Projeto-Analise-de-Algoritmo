@@ -7,10 +7,10 @@ class Heapsort:
         l = 2 * i + 1
         r = 2 * i + 2
 
-        if l < n and items[i][1] < items[l][1]:
+        if l < n and items[i][0] < items[l][0]:
             largest = l
 
-        if r < n and items[largest][1] < items[r][1]:
+        if r < n and items[largest][0] < items[r][0]:
             largest = r
 
         if largest != i:

@@ -1,9 +1,6 @@
 class QuickSort:
-    def __init__(self, arr, l, h):
-        self.arr = arr
-        self.l = l
-        self.h = h
-        self.quicksort(self.arr, self.l, self.h)
+    def __init__(self, dictionary):
+        self.dictionary = dictionary
 
     def quicksort(self, arr, l, h):
         if l < h:
@@ -21,3 +18,14 @@ class QuickSort:
                 (arr[i], arr[j]) = (arr[j], arr[i])
         (arr[i + 1], arr[h]) = (arr[h], arr[i + 1])
         return i + 1
+    
+    def sort_dictionary(self):
+        # Converte o dicionário em uma lista de tuplas (chave, valor)
+        items = list(self.dictionary.items())
+
+        # Realiza o ordenamento com o Mergesort
+        self.quicksort(items, 0, len(items) - 1)
+
+        # Cria um novo dicionário ordenado com base nas tuplas ordenadas
+        sorted_dict = {item[0]: item[1] for item in items}
+        return sorted_dict

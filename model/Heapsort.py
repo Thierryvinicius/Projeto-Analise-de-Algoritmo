@@ -1,7 +1,6 @@
 class Heapsort:
-    def __init__(self, arr):
-        self.arr = arr
-        self.heapSort()
+    def __init__(self, dictionary):
+        self.dictionary = dictionary
 
     def heapify(self, arr, n, i):
         largest = i
@@ -27,3 +26,14 @@ class Heapsort:
         for i in range(n - 1, 0, -1):
             self.arr[i], self.arr[0] = self.arr[0], self.arr[i]
             self.heapify(self.arr, i, 0)
+
+    def sort_dictionary(self):
+        # Converte o dicionário em uma lista de tuplas (chave, valor)
+        items = list(self.dictionary.items())
+
+        # Realiza o ordenamento com o Mergesort
+        self.heapsort(items, 0, len(items) - 1)
+
+        # Cria um novo dicionário ordenado com base nas tuplas ordenadas
+        sorted_dict = {item[0]: item[1] for item in items}
+        return sorted_dict

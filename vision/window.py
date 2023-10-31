@@ -116,7 +116,6 @@ class MyWindow(App):
 
     def run_alg(self, instance):
        print(self.mainbutton.text)
-       print('entrei aq')
        x = controleOrdenacao.process_sorting(self.mainbutton.text, self.result_dict)
        self.result_label.text = str(x)
 

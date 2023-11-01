@@ -1,18 +1,21 @@
-class buscaBinaria:
+class BuscaBinaria:
 
-    def __init__(self):
+    def busca_binaria(self, dicionario, indice_alvo):
+        chaves_ordenadas = sorted(dicionario.keys())
 
-        def pesquisa_binaria_recursiva(A, esquerda, direita, item):
-            """Implementa pesquisa binária recursivamente."""
-            # 1. Caso base: o elemento não está presente. 
-            if direita < esquerda:
-                return -1
+        esquerda, direita = 0, len(chaves_ordenadas) - 1
+
+        while esquerda <= direita:
             meio = (esquerda + direita) // 2
-            # 2. Nosso palpite estava certo: o elemento está no meio do arranjo. 
-            if A[meio] == item:
-                return meio
-            # 3. O palpite estava errado: atualizamos os limites e continuamos a busca. 
-            elif A[meio] > item:
-                return pesquisa_binaria_recursiva(A, esquerda, meio - 1, item)
-            else: # A[meio] < item
-                return pesquisa_binaria_recursiva(A, meio + 1, direita, item)
+            chave_meio = chaves_ordenadas[meio]
+            print('CHAVES ORDENADAS: ', chaves_ordenadas[meio])
+            print('CHAVE MEIO: ',chave_meio)
+            print('ALVO: ', indice_alvo)
+
+            if chave_meio == indice_alvo:
+                return chave_meio  # Retorna a chave correspondente ao valor alvo
+            elif chave_meio < indice_alvo:
+                esquerda = meio + 1
+            else:
+                direita = meio - 1
+        return None

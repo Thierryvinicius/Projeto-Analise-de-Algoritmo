@@ -7,7 +7,7 @@ from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.label import Label
 from kivy.uix.image import Image
 from kivy.uix.textinput import TextInput
-from control import controleOrdenacao
+from control import controleOrdenacao, controleBusca
 import random
 import itertools
 
@@ -41,14 +41,20 @@ class MyWindow(App):
         self.apply_button.bind(on_release=self.generate_auto)
         self.apply_button2 = Button(text="Aplicar",size_hint_y=None, height=44,opacity=0)
         self.apply_button2.bind(on_release=self.generate_manual)
+        self.search_button = Button(text='Buscar chave',size_hint_y=None, height = 44)
+        self.search_button.bind(on_release=self.search)
         self.run_button = Button(text="Rodar Algoritmo",size_hint_y=None,height=44)
         self.run_button.bind(on_release=self.run_alg)
 
         self.manual_input = TextInput(
-            hint_text="Digite dessa forma: chave1 10 chave2 15 chaveN N...", multiline=False, size_hint_y=None, height=44, write_tab=False, opacity=0
+            hint_text="Digite dessa forma: valor nome1 valor nome2 valor nome3...", multiline=False, size_hint_y=None, height=44, write_tab=False, opacity=0
         )
         self.auto_input = TextInput(
             hint_text="Insira o tamanho do vetor", multiline=False, size_hint_y=None, height=44, write_tab=False, opacity=0
+        )
+
+        self.search_input = TextInput(
+            hint_text="Insira o elemento a ser buscado", multiline=False, size_hint_y=None, height=44, write_tab=False
         )
         layout.add_widget(manual_button)
         layout.add_widget(self.manual_input)
@@ -59,6 +65,8 @@ class MyWindow(App):
         self.result_label = Label(text="Resultado: ", size_hint_y=None, height=44)
         layout.add_widget(self.result_label)
         layout.add_widget(self.run_button)
+        layout.add_widget(self.search_input)
+        layout.add_widget(self.search_button)
 
         return layout
 
@@ -90,17 +98,17 @@ class MyWindow(App):
         try:
             self.result_dict = {}
             for i in range(0, len(name_value_pairs), 2):
-                key = name_value_pairs[i]
-                value = int(name_value_pairs[i + 1])
+                value = int(name_value_pairs[i])
+                key = name_value_pairs[i+1]
                 self.result_dict[key] = value
             
             # Você pode adicionar o resultado a uma estrutura de dados, por exemplo, um dicionário de classe
             self.user_data = self.result_dict
 
-            result_text = "Resultado: " + str(self.result_dict) + "\n" + f"Pares inseridos manualmente: {len(self.result_dict)}"
+            result_text = "Resultado: " + str(self.result_dict) + "\n" + f"Tamanho do vetor: {len(self.result_dict)}"
             self.result_label.text = result_text
         except (ValueError, IndexError):
-            self.result_label.text = "Digite pares válidos de chave e valor (ex: chave1 10 chave2 20)."
+            self.result_label.text = "Digite chaves válidas de chave e valor (ex: 1 nome1 2 nome2)."
 
 
     def toggle_manual_input(self, instance):
@@ -123,5 +131,14 @@ class MyWindow(App):
        print(self.mainbutton.text)
        x = controleOrdenacao.process_sorting(self.mainbutton.text, self.result_dict)
        self.result_label.text = str(x)
+
+    def search(self, instance):
+        print('buscando chave...')
+        x = controleBusca.processing_search(self.result_dict, int(self.search_input.text))
+        if x != None:
+            self.result_label.text = "Resultado da busca => " + "Indice: " + str(x) + f" Nome: {self.result_dict[x]}" 
+        else:
+            self.result_label.text = "Índice não encontrado!"
+ 
 
 

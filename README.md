@@ -2,12 +2,6 @@
 
 Este repositório é o lar do projeto conclusivo da disciplina de Análise de Algoritmos, que exigiu a implementação de um código contendo três algoritmos de ordenação, um algoritmo de busca e algoritmos relacionadas a grafos, incluindo busca em largura e profundidade.
 
-## 🚀 Começando
-
-Essas instruções permitirão que você obtenha uma cópia do projeto em operação na sua máquina local para fins de desenvolvimento e teste.
-
-Consulte **[Implantação](#-implanta%C3%A7%C3%A3o)** para saber como implantar o projeto.
-
 ### 📋 Pré-requisitos
 
 Python
